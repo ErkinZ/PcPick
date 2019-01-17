@@ -1,0 +1,40 @@
+﻿@model PcPick.ViewModels.ProductIndexViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search result</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Name", "Search", new { Search = Model.Search, sort = Model.SortOrder })</th>
+            <th>Description</th>
+            <th>@Html.ActionLink("Price", "Search", new { Search = Model.Search, sort = Model.SortOrder })</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.ProductList)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Price
+                </td>
+
+                @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.CategoryId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId })
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

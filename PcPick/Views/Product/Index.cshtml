@@ -1,0 +1,43 @@
+﻿@model PcPick.ViewModels.ProductIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@Html.DisplayFor(model => model.CategoryName)</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Name", "Index", new { Sort = Model.SortOrder })</th>
+            <th>Description</th>
+            <th>@Html.ActionLink("Price", "Index", new { Sort = Model.SortOrder })</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.ProductList)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Price
+                </td>
+
+                @if (Request.IsAuthenticated)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.CategoryId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId })
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,26 @@
+﻿@model PcPick.ViewModels.CategoryIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Categories</h2>
+
+<table class="table">
+    @foreach (var item in Model.CategoriesList)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Index", "Product", new { id = item.CategoryId }, null)
+            </td>
+            @if (Request.IsAuthenticated)
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }) |
+                    @Html.ActionLink("Create", "Create", new { id = item.CategoryId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId })
+                </td>
+            }
+        </tr>
+    }
+</table>
