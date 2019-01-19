@@ -10,6 +10,7 @@ namespace PcPick.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "PcPick.MyDB.MyDbContext";
         }
 
         protected override void Seed(PcPick.MyDB.MyDbContext context)
@@ -28,7 +29,7 @@ namespace PcPick.Migrations
                 });
             #endregion
 
-            #region Product with id 1
+            #region Product with CategoryId 1
             context.Products.AddOrUpdate(x => x.ProductId,
                 new Models.Product
                 {
@@ -48,7 +49,7 @@ namespace PcPick.Migrations
                 });
             #endregion
 
-            #region Product with id 2
+            #region Product with CategoryId 2
             context.Products.AddOrUpdate(x => x.ProductId,
                 new Models.Product
                 {

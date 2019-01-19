@@ -1,7 +1,64 @@
-﻿
+﻿@model PcPick.ViewModels.ProductEditViewModel
+
 @{
     ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
 
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table">
+        <tr>
+            <td>Name</td>
+            <td>
+                @Html.HiddenFor(model => model.ProductId)
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Description</td>
+            <td>
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Price</td>
+            <td>
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Price)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Photo</td>
+            <td>
+                @Html.EditorFor(model => model.Photo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Photo)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Category</td>
+            <td>
+                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDropDownList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Photo)
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Save" class="btn btn-default" />
+
+    <br />
+    <br />
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Product", new { id = Model.CategoryId }, null)
+    </div>
+}

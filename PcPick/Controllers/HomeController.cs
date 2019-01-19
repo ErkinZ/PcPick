@@ -33,12 +33,9 @@ namespace PcPick.Controllers
         //My edit region where all the edit requests contain
         #region Edit
         [HttpGet]
+        [Authorize]
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             using (var db = new MyDbContext())
             {
                 var cat = db.Categories.Find(id);
@@ -47,14 +44,11 @@ namespace PcPick.Controllers
                     CategoryId = cat.CategoryId,
                     Name = cat.Name
                 };
-                if (model == null)
-                {
-                    return HttpNotFound();
-                }
                 return View(model);
             }
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CategoryEditViewModel model)
@@ -79,12 +73,70 @@ namespace PcPick.Controllers
 
         //My create region where all the create requests contain
         #region Create
+        [Authorize]
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View(new CategoryEditViewModel());
+        }
 
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CategoryEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            using (var db = new MyDbContext())
+            {
+                var cat = new Models.Category
+                {
+                    Name = model.Name
+                };
+
+                db.Categories.Add(cat);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
         #endregion
 
         //My delete region where all the delete requests contain
         #region Delete
+        [Authorize]
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            using (var db = new MyDbContext())
+            {
+                var cat = db.Categories.Find(id);
+                var model = new CategoryEditViewModel
+                {
+                    CategoryId = cat.CategoryId,
+                    Name = cat.Name
+                };
+                return View(model);
+            }
+        }
 
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirm(int? id)
+        {
+            using (var db = new MyDbContext())
+            {
+                var obj = db.Categories.Find(id);
+                if (obj != null)
+                {
+                    db.Categories.Remove(obj);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+        }
         #endregion
     }
 }

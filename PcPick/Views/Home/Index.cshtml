@@ -4,6 +4,11 @@
     ViewBag.Title = "Index";
 }
 
+@if (Request.IsAuthenticated)
+{
+    @Html.ActionLink("Create", "Create")
+}
+
 <h2>Categories</h2>
 
 <table class="table">
@@ -17,7 +22,6 @@
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }) |
-                    @Html.ActionLink("Create", "Create", new { id = item.CategoryId }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId })
                 </td>
             }

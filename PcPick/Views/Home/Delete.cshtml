@@ -1,7 +1,28 @@
-﻿
+﻿@model PcPick.ViewModels.CategoryEditViewModel
+
 @{
     ViewBag.Title = "Delete";
 }
 
 <h2>Delete</h2>
 
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <h3>Are you sure you want to delete this?</h3>
+
+    <tabel>
+        <tr>
+            <td>Name</td>
+            <td>
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+    </tabel>
+
+    <input type="submit" value="Delete" class="btn btn-default" />
+    <br />
+    @Html.ActionLink("Back to List", "Index")
+}

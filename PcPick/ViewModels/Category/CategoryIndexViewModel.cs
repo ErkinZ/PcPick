@@ -15,8 +15,8 @@ namespace PcPick.ViewModels
 
         public class CategoryListViewModel
         {
-            public string Name { get; set; }
             public int CategoryId { get; set; }
+            public string Name { get; set; }
         }
 
         public List<CategoryListViewModel> CategoriesList { get; set; }

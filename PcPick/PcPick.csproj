@@ -192,6 +192,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Category\CategoryEditViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoryIndexViewModel.cs" />
+    <Compile Include="ViewModels\Product\ProductEditViewModel.cs" />
     <Compile Include="ViewModels\Product\ProductIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
