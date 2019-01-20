@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -18,14 +19,18 @@ namespace PcPick.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        //Added
+        ApplicationDbContext context;
+        //Added
+        public AccountController()
+        {
+            context = new ApplicationDbContext();
         }
 
         public ApplicationSignInManager SignInManager
@@ -93,7 +98,7 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/VerifyCode
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Require that the user has already logged in via username/password or external login
@@ -107,7 +112,7 @@ namespace PcPick.Controllers
         //
         // POST: /Account/VerifyCode
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
@@ -136,18 +141,18 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
-        //[Authorize(Roles = "Admin")]  //Might use later
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel();
+            model.selectedList = new SelectList(context.Roles, "Name", "Name");
+            return View(model);
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
-        //[Authorize(Roles = "Admin")]  //Might use later
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -157,13 +162,14 @@ namespace PcPick.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    model.selectedList = new SelectList(context.Roles, "Name", "Name");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -176,7 +182,7 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -189,7 +195,7 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/ForgotPassword
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ForgotPassword()
         {
             return View();
@@ -198,7 +204,7 @@ namespace PcPick.Controllers
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -225,7 +231,7 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
@@ -233,7 +239,7 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
@@ -242,7 +248,7 @@ namespace PcPick.Controllers
         //
         // POST: /Account/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -267,7 +273,7 @@ namespace PcPick.Controllers
 
         //
         // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();

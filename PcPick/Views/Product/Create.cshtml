@@ -11,10 +11,10 @@
     @Html.AntiForgeryToken()
 
     <table class="table">
+        @Html.HiddenFor(model => model.CategoryId)
         <tr>
             <td>Name</td>
             <td>
-                @Html.HiddenFor(model => model.ProductId)
                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Name)
             </td>
@@ -47,8 +47,7 @@
         <tr>
             <td>Category</td>
             <td>
-                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDropDownList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Photo)
+                @Html.TextBoxFor(model => model.CategoryName, new { @class = "form-control", @readonly = "readonly" })
             </td>
         </tr>
     </table>

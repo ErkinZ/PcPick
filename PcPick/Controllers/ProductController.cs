@@ -126,7 +126,11 @@ namespace PcPick.Controllers
         public ActionResult Create(int? id)
         {
             var model = new ProductEditViewModel { CategoryId = (int)id };
-            CategoriesDropDown(model);
+            using (var db = new MyDbContext())
+            {
+                model.CategoryName = string.Join("" ,db.Categories.Where(x => x.CategoryId == id).Select(x => x.Name));
+                model.CategoryId = (int)id;
+            }
 
             return View(model);
         }
@@ -186,6 +190,10 @@ namespace PcPick.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)
         {
+            if (id == null || id == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             using (var db = new MyDbContext())
             {
                 var obj = db.Products.Find(id);
@@ -238,10 +246,7 @@ namespace PcPick.Controllers
         //Method to generate a drop down meny that takes in a product parameter
         public void CategoriesDropDown(ProductEditViewModel model)
         {
-            model.CategoryDropDownList = new List<SelectListItem>
-            {
-                new SelectListItem { Value = null, Text = "Choose a category.." }
-            };
+            model.CategoryDropDownList = new List<SelectListItem>();
             using (var db = new MyDbContext())
             {
                 foreach (var cat in db.Categories)

@@ -64,10 +64,18 @@ namespace PcPick.Models
 
     public class RegisterViewModel
     {
+        //UserRoles property created
+        [Display(Name = "UserRoles")]
+        public string UserRoles { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        //UserName property created
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -79,6 +87,9 @@ namespace PcPick.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        //I did not want to use ViewBag so i made a Ienumerable<dynamic> list instead
+        public IEnumerable<dynamic> selectedList { get; set; }
     }
 
     public class ResetPasswordViewModel

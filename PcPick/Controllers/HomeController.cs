@@ -126,6 +126,10 @@ namespace PcPick.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)
         {
+            if (id == null || id == 0)
+            {
+                return RedirectToAction("Index");
+            }
             using (var db = new MyDbContext())
             {
                 var obj = db.Categories.Find(id);
