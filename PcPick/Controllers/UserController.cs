@@ -14,14 +14,6 @@ namespace PcPick.Controllers
 {
     public class UserController : Controller
     {
-        //Added
-        ApplicationDbContext context;
-        //Added
-        public UserController()
-        {
-            context = new ApplicationDbContext();
-        }
-
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
@@ -105,40 +97,48 @@ namespace PcPick.Controllers
         #endregion
 
         #region Delete
-        //[Authorize]
-        //[HttpGet]
-        //public ActionResult Delete(string id)
-        //{
-        //    var model = new UserEditViewModel();
-        //    using (var db = new ApplicationDbContext())
-        //    {
-        //        var user = UserManager.FindById(id);
-                
-        //        return View(model);
-        //    }
-        //}
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(string id)
+        {
+            var model = new UserEditViewModel();
+            using (var db = new ApplicationDbContext())
+            {
+                var user = UserManager.FindById(id);
+                model.Email = user.Email;
+                model.UserName = user.UserName;
+                model.UserRoles = UserManager.GetRoles(user.Id).SingleOrDefault();
 
-        //[Authorize]
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirm(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    using (var db = new ApplicationDbContext())
-        //    {
-        //        var obj = db.Products.Find(id);
-        //        if (obj != null)
-        //        {
-        //            db.Products.Remove(obj);
-        //            db.SaveChanges();
-        //            return RedirectToAction("Index", "Product", new { id = obj.CategoryId });
-        //        }
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //}
+                return View(model);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirm(string id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var user = UserManager.FindById(id);
+            var rolesForUser = UserManager.GetRoles(id);
+
+            if (rolesForUser.Count() > 0)
+            {
+                foreach (var item in rolesForUser.ToList())
+                {
+                    var result = UserManager.RemoveFromRoleAsync(user.Id, item);
+                }
+            }
+
+            UserManager.DeleteAsync(user);
+            //UserManager.Dispose();
+
+            return RedirectToAction("Index");
+        }
         #endregion
     }
 }

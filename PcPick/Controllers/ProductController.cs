@@ -209,38 +209,34 @@ namespace PcPick.Controllers
         #endregion
 
         //Method to sort products, the method takes in a product and a sort string as a parameter
+        //I use the first if statement there because i want the nameAsc to be seen in the url
+        //instead of leaving it blank for ascending.
         public ProductIndexViewModel Sort(ProductIndexViewModel model, string sort)
         {
-            if (sort == "nameAsc" || sort == "nameDesc")
+            if (string.IsNullOrEmpty(sort))
             {
-                model.SortOrderName = sort == "nameDesc" ? "nameAsc" : "nameDesc";
-                switch (model.SortOrderName)
-                {
-                    case "nameDesc":
-                        model.ProductList = model.ProductList.OrderBy(x => x.Name).ToList();
-                        break;
-
-                    default:
-                        model.ProductList = model.ProductList.OrderByDescending(x => x.Name).ToList();
-                        break;
-                }
-                return model;
+                sort = "nameAsc";
             }
-            else
+            model.SortOrderName = sort == "nameDesc" ? "nameAsc" : "nameDesc";
+            model.SortOrderPrice = sort == "priceDesc" ? "priceAsc" : "priceDesc";
+
+            switch (sort)
             {
-                model.SortOrderPrice = sort == "priceDesc" ? "priceAsc" : "priceDesc";
-                switch (model.SortOrderPrice)
-                {
-                    case "priceDesc":
-                        model.ProductList = model.ProductList.OrderBy(x => x.Price).ToList();
-                        break;
-
-                    default:
-                        model.ProductList = model.ProductList.OrderByDescending(x => x.Price).ToList();
-                        break;
-                }
-                return model;
+                case "nameAsc":
+                    model.ProductList = model.ProductList.OrderBy(x => x.Name).ToList();
+                    break;
+                case "nameDesc":
+                    model.ProductList = model.ProductList.OrderByDescending(x => x.Name).ToList();
+                    break;
+                case "priceAsc":
+                    model.ProductList = model.ProductList.OrderBy(p => p.Price).ToList();
+                    break;
+                case "priceDesc":
+                    model.ProductList = model.ProductList.OrderByDescending(p => p.Price).ToList();
+                    break;
             }
+
+            return model;
         }
 
         //Method to generate a drop down meny that takes in a product parameter

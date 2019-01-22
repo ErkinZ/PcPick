@@ -24,8 +24,10 @@ namespace PcPick.ViewModels
         }
 
         public string Search { get; set; }
-        public string SortOrderName { get; set; } = "nameAsc";
-        public string SortOrderPrice { get; set; } = "priceAsc";
+        //public string SortOrderName { get; set; } = "nameAsc";
+        public string SortOrderName { get; set; }
+        //public string SortOrderPrice { get; set; } = "priceAsc";
+        public string SortOrderPrice { get; set; }
         public string CategoryName { get; set; }
         public int CategoryId { get; set; }
         public List<ProductListViewModel> ProductList { get; set; }

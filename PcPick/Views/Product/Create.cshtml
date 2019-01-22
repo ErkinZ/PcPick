@@ -23,7 +23,7 @@
         <tr>
             <td>Description</td>
             <td>
-                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Description)
             </td>
         </tr>
