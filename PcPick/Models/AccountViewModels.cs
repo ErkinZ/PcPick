@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using CompareAttribute = System.ComponentModel.DataAnnotations.CompareAttribute;
 
 namespace PcPick.Models
 {
@@ -65,6 +67,7 @@ namespace PcPick.Models
     public class RegisterViewModel
     {
         //UserRoles property created
+        [Required]
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }
 
@@ -74,6 +77,7 @@ namespace PcPick.Models
         public string Email { get; set; }
 
         //UserName property created
+        [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
@@ -88,8 +92,7 @@ namespace PcPick.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        //I did not want to use ViewBag so i made a Ienumerable<dynamic> list instead
-        public IEnumerable<dynamic> selectedList { get; set; }
+        public List<SelectListItem> selectedList { get; set; }
     }
 
     public class ResetPasswordViewModel

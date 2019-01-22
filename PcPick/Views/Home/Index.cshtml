@@ -21,8 +21,8 @@
             @if (Request.IsAuthenticated)
             {
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }) | 
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId })
+                    @Html.ActionLink(" ", "Edit", new { id = item.CategoryId }, new { @class = "glyphicon glyphicon-pencil" }) |
+                    @Html.ActionLink(" ", "Delete", new { id = item.CategoryId }, new { @class = "glyphicon glyphicon-trash" })
                 </td>
             }
         </tr>

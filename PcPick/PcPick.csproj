@@ -194,6 +194,7 @@
     <Compile Include="ViewModels\Category\CategoryIndexViewModel.cs" />
     <Compile Include="ViewModels\Product\ProductEditViewModel.cs" />
     <Compile Include="ViewModels\Product\ProductIndexViewModel.cs" />
+    <Compile Include="ViewModels\User\UserEditViewModel.cs" />
     <Compile Include="ViewModels\User\UserIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +260,8 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,40 @@
+﻿@model PcPick.ViewModels.UserEditViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table">
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.UserRoles)
+        <tr>
+            <td>Email</td>
+            <td>@Html.TextBoxFor(model => model.Email, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td>@Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td>Role</td>
+            <td>
+                @Html.DropDownListFor(model => model.UserDropDownHolder, Model.UserDropDownList)
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Save" class="btn btn-default" />
+
+    <br />
+    <br />
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+}
