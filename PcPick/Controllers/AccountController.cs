@@ -25,12 +25,8 @@ namespace PcPick.Controllers
             SignInManager = signInManager;
         }
 
-        //Added
-        ApplicationDbContext context;
-        //Added
         public AccountController()
         {
-            context = new ApplicationDbContext();
         }
 
         public ApplicationSignInManager SignInManager
