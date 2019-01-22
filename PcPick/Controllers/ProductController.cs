@@ -26,6 +26,7 @@ namespace PcPick.Controllers
                         Name = x.Name,
                         Description = x.Description,
                         Price = x.Price,
+                        PhotoByte = x.Photo,
                         CategoryId = x.CategoryId
                     }).Where(x => x.CategoryId == id));
 
@@ -33,6 +34,28 @@ namespace PcPick.Controllers
 
                 return View(model);
             }
+        }
+
+        public ActionResult ViewProduct(int? id)
+        {
+            var model = new ProductEditViewModel();
+
+            using (var db = new MyDbContext())
+            {
+                var product = db.Products.Find(id);
+                model.Name = product.Name;
+                model.Description = product.Description;
+                model.Price = product.Price;
+                model.PhotoByte = product.Photo;
+            }
+
+            if (model.PhotoByte != null)
+            {
+                var base64 = Convert.ToBase64String(model.PhotoByte);
+                model.PhotoString = string.Format($"data:image/gif;base64,{base64}");
+            }
+
+            return View(model);
         }
 
         #region Search
@@ -72,7 +95,7 @@ namespace PcPick.Controllers
         //My edit region where all the edit requests contain
         #region Edit
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         public ActionResult Edit(int? id)
         {
             using (var db = new MyDbContext())
@@ -84,34 +107,41 @@ namespace PcPick.Controllers
                     Name = prod.Name,
                     Description = prod.Description,
                     Price = prod.Price,
-                    Photo = prod.Photo,
+                    PhotoByte = prod.Photo,
                     CategoryId = prod.CategoryId
                 };
                 CategoriesDropDown(model);
+
                 return View(model);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public ActionResult Edit(ProductEditViewModel model)
+        [Authorize(Roles = "Admin, ProductManager")]
+        public ActionResult Edit(ProductEditViewModel model, HttpPostedFileBase img)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return RedirectToAction("Index", new { id = model.CategoryId });
             }
 
             using (var db = new MyDbContext())
             {
                 var prod = db.Products.FirstOrDefault(x => x.ProductId == model.ProductId);
 
+                if (img != null)
+                {
+                    model.PhotoByte = new byte[img.ContentLength];
+                    img.InputStream.Read(model.PhotoByte, 0, img.ContentLength);
+                }
                 prod.ProductId = model.ProductId;
                 prod.Name = model.Name;
                 prod.Description = model.Description;
                 prod.Price = model.Price;
-                prod.Photo = model.Photo;
+                prod.Photo = model.PhotoByte;
                 prod.CategoryId = model.CategoryId;
+
 
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = prod.CategoryId });
@@ -121,7 +151,7 @@ namespace PcPick.Controllers
 
         //My create region where all the create requests contain
         #region Create
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpGet]
         public ActionResult Create(int? id)
         {
@@ -135,10 +165,10 @@ namespace PcPick.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductEditViewModel model)
+        public ActionResult Create(ProductEditViewModel model, HttpPostedFileBase img)
         {
             if (!ModelState.IsValid)
             {
@@ -146,13 +176,18 @@ namespace PcPick.Controllers
             }
             using (var db = new MyDbContext())
             {
+                if (img != null)
+                {
+                    model.PhotoByte = new byte[img.ContentLength];
+                    img.InputStream.Read(model.PhotoByte, 0, img.ContentLength);
+                }
                 var prod = new Models.Product
                 {
                     ProductId = model.ProductId,
                     Name = model.Name,
                     Description = model.Description,
                     Price = model.Price,
-                    Photo = model.Photo,
+                    Photo = model.PhotoByte,
                     CategoryId = model.CategoryId
                 };
 
@@ -165,7 +200,7 @@ namespace PcPick.Controllers
 
         //My delete region where all the delete requests contain
         #region Delete
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpGet]
         public ActionResult Delete(int? id)
         {
@@ -178,14 +213,14 @@ namespace PcPick.Controllers
                     Name = prod.Name,
                     Description = prod.Description,
                     Price = prod.Price,
-                    Photo = prod.Photo,
+                    PhotoByte = prod.Photo,
                     CategoryId = prod.CategoryId
                 };
                 return View(model);
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)

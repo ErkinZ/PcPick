@@ -36,14 +36,6 @@
                 @Html.ValidationMessageFor(model => model.Name)
             </td>
         </tr>
-
-        <tr>
-            <td>Photo</td>
-            <td>
-                @Html.TextBoxFor(model => model.Photo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Name)
-            </td>
-        </tr>
     </table>
 
     <input type="submit" value="Delete" class="btn btn-default" />

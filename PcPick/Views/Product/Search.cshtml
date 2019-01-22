@@ -9,9 +9,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.ActionLink("Name", "Search", new { Search = Model.Search, sort = Model.SortOrderName })</th>
+            <th>@Html.ActionLink("Name", "Search", new { search = Model.Search, sort = Model.SortOrderName })</th>
             <th>Description</th>
-            <th>@Html.ActionLink("Price", "Search", new { Search = Model.Search, sort = Model.SortOrderPrice })</th>
+            <th>@Html.ActionLink("Price", "Search", new { search = Model.Search, sort = Model.SortOrderPrice })</th>
         </tr>
     </thead>
 
@@ -20,7 +20,7 @@
         {
             <tr>
                 <td>
-                    @item.Name
+                    @Html.ActionLink(item.Name, "ViewProduct", "Product", new { id = item.ProductId }, null)
                 </td>
                 <td>
                     @item.Description

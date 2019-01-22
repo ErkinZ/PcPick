@@ -24,8 +24,9 @@
         @foreach (var item in Model.ProductList)
         {
             <tr>
+                @*<td onclick="location.href = '@(Url.Action("ViewProduct", "Product", new { userId = item.ProductId }))'">*@
                 <td>
-                    @item.Name
+                    @Html.ActionLink(item.Name, "ViewProduct", "Product", new { id = item.ProductId }, null)
                 </td>
                 <td>
                     @item.Description

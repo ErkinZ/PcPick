@@ -33,7 +33,7 @@ namespace PcPick.Controllers
         //My edit region where all the edit requests contain
         #region Edit
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         public ActionResult Edit(int? id)
         {
             using (var db = new MyDbContext())
@@ -48,7 +48,7 @@ namespace PcPick.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CategoryEditViewModel model)
@@ -73,14 +73,14 @@ namespace PcPick.Controllers
 
         //My create region where all the create requests contain
         #region Create
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpGet]
         public ActionResult Create()
         {
             return View(new CategoryEditViewModel());
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CategoryEditViewModel model)
@@ -105,7 +105,7 @@ namespace PcPick.Controllers
 
         //My delete region where all the delete requests contain
         #region Delete
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpGet]
         public ActionResult Delete(int? id)
         {
@@ -121,7 +121,7 @@ namespace PcPick.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, ProductManager")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)

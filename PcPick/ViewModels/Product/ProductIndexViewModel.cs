@@ -19,7 +19,8 @@ namespace PcPick.ViewModels
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal Price { get; set; }
-            public byte[] Photo { get; set; }
+            public byte[] PhotoByte { get; set; }
+            public string PhotoString { get; set; }
             public int CategoryId { get; set; }
         }
 

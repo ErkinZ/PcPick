@@ -21,7 +21,9 @@ namespace PcPick.ViewModels
         [DataType(DataType.Currency, ErrorMessage = "You have to enter a number.")]
         [Range(1, int.MaxValue, ErrorMessage = "The Price field must be between 1 and 2147483647.")]
         public decimal Price { get; set; }
-        public byte[] Photo { get; set; }
+        //[Required(ErrorMessage = "The Image field is required.")]
+        public byte[] PhotoByte { get; set; }
+        public string PhotoString { get; set; }
         public int CategoryId { get; set; }
 
         public string CategoryName { get; set; }
