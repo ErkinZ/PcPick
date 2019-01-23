@@ -9,6 +9,7 @@ using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace PcPick.Controllers
 {
@@ -117,26 +118,30 @@ namespace PcPick.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirm(string id)
+        public async Task<ActionResult> DeleteConfirm(string id)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+                if (id == null)
             {
                 return RedirectToAction("Index");
             }
 
-            var user = UserManager.FindById(id);
-            var rolesForUser = UserManager.GetRoles(id);
+            var user = await UserManager.FindByIdAsync(id);
+            var rolesForUser = await UserManager.GetRolesAsync(id);
 
             if (rolesForUser.Count() > 0)
             {
                 
                 foreach (var item in rolesForUser.ToList())
                 {
-                    var result = UserManager.RemoveFromRoleAsync(user.Id, item);
+                    var result = await UserManager.RemoveFromRoleAsync(user.Id, item);
                 }
             }
 
-            UserManager.Delete(user);
+            await UserManager.DeleteAsync(user);
             //UserManager.Dispose();
 
             return RedirectToAction("Index");
