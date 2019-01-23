@@ -181,9 +181,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901222344481_SeedAll.cs" />
-    <Compile Include="Migrations\201901222344481_SeedAll.Designer.cs">
-      <DependentUpon>201901222344481_SeedAll.cs</DependentUpon>
+    <Compile Include="Migrations\201901230208565_FirstSeed.cs" />
+    <Compile Include="Migrations\201901230208565_FirstSeed.Designer.cs">
+      <DependentUpon>201901230208565_FirstSeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -210,6 +210,26 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\AMDRyzen71700X.jpg" />
+    <Content Include="Images\AMDRyzenThreadripper2990WX3.0GHz80MB.jpg" />
+    <Content Include="Images\ASUSGeForceGTX10606GBDUALOC.jpg" />
+    <Content Include="Images\AsusGTX1050TI.jpg" />
+    <Content Include="Images\ASUSROGSTRIXX470-IGAMING.jpg" />
+    <Content Include="Images\EVGAGeForceGTX10606GBSCGaming.jpg" />
+    <Content Include="Images\GigabyteZ390AORUSXTREME.jpg" />
+    <Content Include="Images\GigabyteZ390MGAMING.jpg" />
+    <Content Include="Images\IntelCorei59600K3.7GHz9MB.jpg" />
+    <Content Include="Images\IntelCorei7-9800X3.8GHz16,5MB.jpg" />
+    <Content Include="Images\IntelCorei78700K3.7GHz12MB.jpg" />
+    <Content Include="Images\MSIGeForceGTX10606GBGamingX.jpg" />
+    <Content Include="Images\MSIGeForceRTX2060.jpg" />
+    <Content Include="Images\MSIGeForceRTX2080Ti11GBGAMINGXTRIO.png" />
+    <Content Include="Images\MSIZ390-APRO.jpg" />
+    <Content Include="Images\NVIDIATitanRTX24GB.jpg" />
+    <Content Include="Images\Samsung860EVO1TBM.2.jpg" />
+    <Content Include="Images\Samsung970EVO1TB.jpg" />
+    <Content Include="Images\SeagateBarraCuda2TB7200rpm256MB.jpg" />
+    <Content Include="Images\SeagateIronwolf8TB7200rpm256MB.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -285,8 +305,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901222344481_SeedAll.resx">
-      <DependentUpon>201901222344481_SeedAll.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901230208565_FirstSeed.resx">
+      <DependentUpon>201901230208565_FirstSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

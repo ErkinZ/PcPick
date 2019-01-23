@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PcPick.ViewModels;
+using System.Web.Hosting;
 
 namespace PcPick.Controllers
 {
@@ -14,7 +15,7 @@ namespace PcPick.Controllers
         public ActionResult Index(int id, string sort)
         {
             var model = new ProductIndexViewModel();
-            
+
             using (var db = new MyDbContext())
             {
                 model.CategoryName = string.Join("", db.Categories.Where(x => x.CategoryId == id).Select(x => x.Name));

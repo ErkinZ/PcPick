@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PcPick.ViewModels;
+using System.Web.Hosting;
+using System.IO;
 
 namespace PcPick.Controllers
 {
@@ -18,6 +20,7 @@ namespace PcPick.Controllers
         public ActionResult Index()
         {
             var model = new CategoryIndexViewModel();
+
             using (var db = new MyDbContext())
             {
                 model.CategoriesList.AddRange(db.Categories.Select(x => new CategoryIndexViewModel.CategoryListViewModel

@@ -86,7 +86,8 @@ namespace PcPick.Controllers
             {
                 var user = UserManager.FindById(model.UserId);
                 user.Id = model.UserId;
-
+                user.Email = model.Email;
+                user.UserName = model.UserName;
                 UserManager.RemoveFromRole(user.Id, model.UserRoles);
                 UserManager.AddToRole(user.Id, model.UserDropDownHolder);
 
@@ -128,13 +129,14 @@ namespace PcPick.Controllers
 
             if (rolesForUser.Count() > 0)
             {
+                
                 foreach (var item in rolesForUser.ToList())
                 {
                     var result = UserManager.RemoveFromRoleAsync(user.Id, item);
                 }
             }
 
-            UserManager.DeleteAsync(user);
+            UserManager.Delete(user);
             //UserManager.Dispose();
 
             return RedirectToAction("Index");
